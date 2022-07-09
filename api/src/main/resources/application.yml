@@ -1,0 +1,24 @@
+server:
+  servlet:
+    encoding:
+      charset: utf-8
+spring:
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:schema.sql
+      data-locations: classpath:data.sql
+  datasource:
+    username: sa
+    password: password
+    url: jdbc:h2:~/api-db
+    driverClassName: org.h2.Driver
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
