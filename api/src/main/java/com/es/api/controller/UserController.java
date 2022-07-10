@@ -16,7 +16,7 @@ import java.util.Collections;
 
 @RestController
 @Api(tags = "회원")
-@RequestMapping(value = "/szs")
+@RequestMapping(value = "/api")
 public class UserController {
     private Logger log = LoggerFactory.getLogger(this.getClass());
 
