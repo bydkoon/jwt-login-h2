@@ -16,25 +16,28 @@ import java.util.List;
 @NoArgsConstructor
 @Table(name = "user")
 public class User {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "userId", nullable = false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "regNo", length = 50)
-    private String email;
+    @Column(name ="userId", nullable = false)
+    private String userId;
 
+    @Column(name="regNo", length = 50)
+    private String regNo;
 
-    @Column(name = "name")
+//    @Column(name = "name")
     private String name;
 
-    @Column(name = "password", length = 500)
+    @Column(length = 500)
     private String password;
 
-    private Date updateDate;
 
-    public User(String email, String password, String name) {
-        this.email = email;
+
+    public User(String userId, String regNo, String password, String name) {
+        this.userId = userId;
+        this.regNo = regNo;
         this.password = password;
         this.name = name;
     }
