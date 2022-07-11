@@ -1,4 +1,5 @@
-INSERT INTO USER VALUES (1, 'bob','1234','bob1','bob@gmail.com');
-INSERT INTO USER VALUES (2, 'jona','1234','jona1','jona@gmail.com');
-INSERT INTO USER VALUES (3, 'kim','1234','kim1','kim@gmail.com');
-INSERT INTO USER VALUES (4, 'lee','1234','lee1','lee@gmail.com');
+INSERT INTO USER VALUES (1, '홍길동','hong','pass1','860824-1655068');
+INSERT INTO USER VALUES (2, '김둘리','kim','pass2','921108-1582816');
+INSERT INTO USER VALUES (3, '마징가','ma','pass3','880601-2455116');
+INSERT INTO USER VALUES (4, '베지터','be','pass4','910411-1656116');
+INSERT INTO USER VALUES (5, '손오공','son','pass5','860824-1655068');

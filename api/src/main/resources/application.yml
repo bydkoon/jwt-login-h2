@@ -6,7 +6,7 @@ spring:
   h2:
     console:
       enabled: true
-      path: /h2-console;
+      path: /h2-console
   sql:
     init:
       mode: always
@@ -22,3 +22,7 @@ spring:
       matching-strategy: ant_path_matcher
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      naming:
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl

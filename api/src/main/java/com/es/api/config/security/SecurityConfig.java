@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -14,13 +15,23 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
     private Logger log = LoggerFactory.getLogger(this.getClass());
 
     private final JwtTokenProvider jwtTokenProvider;
 
-    public SecurityConfig(JwtTokenProvider jwtTokenProvider) {
+    private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
+    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+
+
+    public SecurityConfig(JwtTokenProvider jwtTokenProvider,
+                          JwtAccessDeniedHandler jwtAccessDeniedHandler,
+                          JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint) {
         this.jwtTokenProvider = jwtTokenProvider;
+        this.jwtAccessDeniedHandler = jwtAccessDeniedHandler;
+        this.jwtAuthenticationEntryPoint = jwtAuthenticationEntryPoint;
     }
+
 
     @Bean
     @Override
@@ -29,24 +40,38 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers("/static/css/**, /static/js/**, *.ico");
+
+        // swagger
+        web.ignoring().antMatchers(
+                "/v2/api-docs", "/v3/api-docs", "/configuration/ui",
+                "/swagger-resources", "/configuration/security",
+                "/swagger-ui/index.html", "/webjars/**", "/swagger/**","/swagger-resources",
+                "/configuration/security", "/swagger-resources/configuration/ui",
+                "/swagger-resources/configuration/security");
+    }
+
+
+
+    @Override
     protected void configure(HttpSecurity http) throws Exception {
+        //스프링시큐리티에서 만들어주는 로그인 페이지를 미사용
         http.csrf().disable();
         http.headers().frameOptions().disable();
-        http.authorizeRequests()
-                .antMatchers("/h2-console/**").permitAll();
-        http.httpBasic().disable()
-                .csrf().disable()
 
+        http.httpBasic().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/szs/signup").hasRole("USER")
-                .antMatchers("/szs.signin").hasRole("USER")
-
-                .anyRequest()
-                .permitAll()
+                .antMatchers("/h2-console/**","/admin/**","/api/signup","/api/signin").permitAll()
+                .anyRequest().authenticated()
                 .and()
-                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
+                .exceptionHandling()
+                //JwtAuthentication exception handling
+                .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+                //access Denial handler
+                .accessDeniedHandler(jwtAccessDeniedHandler);
     }
 }
