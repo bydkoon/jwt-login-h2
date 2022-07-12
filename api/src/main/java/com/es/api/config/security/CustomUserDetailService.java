@@ -1,5 +1,6 @@
 package com.es.api.config.security;
 
+import com.es.api.dto.UserDTO;
 import com.es.api.entity.User;
 import com.es.api.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +26,17 @@ public class CustomUserDetailService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
-        return (UserDetails) userRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다."));
+
+        Optional<User> userRepositoryById = userRepository.findById(Long.valueOf(id));
+        UserDTO userDTO = new UserDTO();
+        if(userRepositoryById.isPresent()){
+            User user = userRepositoryById.get();
+            userDTO.setUserId(user.getUserId());
+            userDTO.setId(user.getId());
+            userDTO.setPassword(user.getPassword());
+        }
+
+        return new UserPrincipal(userDTO);
 
     }
 }

@@ -42,8 +42,8 @@ public class UserService {
     }
 
     // 로그인
-    public User getId(String id) {
-        Optional<User> user = userRepository.findByUserId(id);
+    public User getId(Long id) {
+        Optional<User> user = userRepository.findById(id);
         return user.get();
     }
 
