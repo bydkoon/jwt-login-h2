@@ -7,15 +7,10 @@ import com.es.api.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Collections;
 
 @RestController
 @Api(tags = "회원")
@@ -42,11 +37,10 @@ public class UserController {
 
     @ApiOperation(value = "로그인", notes = "로그인", tags = "회원")
     @PostMapping(value = "/signin")
-    public String login(@RequestBody UserParameter userParameter) {
+    public String login(@RequestBody UserParameter userParameter) throws Exception{
         User user = userService.login(userParameter);
-        return jwtTokenProvider.createToken(user.getUserId());
+        return jwtTokenProvider.createToken(user.getId());
     }
-
 
 
     @ApiOperation(value = "로그인회원 정보 조회", notes = "로그인회원 정보 조회", tags = "회원")

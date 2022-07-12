@@ -1,4 +1,4 @@
-package com.bemily.api.jwt.dto;
+package com.es.api.dto;
 
 import lombok.Data;
 
@@ -7,12 +7,11 @@ import java.util.Arrays;
 import java.util.List;
 
 @Data
-public class Account {
-    private long accountIdx;
-    private String accountHex;
-    private String email;
+public class User {
+    private long id;
     private String password;
-    private int status;
+    private String regNo;
+    private String name;
     private String roles = "";
     private String permissions = "";
 
