@@ -45,9 +45,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         // swagger
         web.ignoring().antMatchers(
-                "/v2/api-docs", "/v3/api-docs", "/configuration/ui",
-                "/swagger-resources", "/configuration/security",
-                "/swagger-ui/index.html", "/webjars/**", "/swagger/**","/swagger-resources",
+                "/v2/api-docs/**", "/v3/api-docs/**", "/configuration/ui",
+                "/swagger-resources", "/configuration/security", "/swagger-ui/**",
+                "/swagger-ui/index.html", "/webjars/**", "/swagger/**","/swagger-resources/**",
                 "/configuration/security", "/swagger-resources/configuration/ui",
                 "/swagger-resources/configuration/security", "/h2-console/**","/api/signup","/api/signin");
     }
