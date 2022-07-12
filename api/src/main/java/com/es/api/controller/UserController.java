@@ -1,6 +1,7 @@
 package com.es.api.controller;
 
 import com.es.api.config.security.JwtTokenProvider;
+import com.es.api.config.security.UserPrincipal;
 import com.es.api.entity.User;
 import com.es.api.parameters.UserParameter;
 import com.es.api.service.UserService;
@@ -48,7 +49,7 @@ public class UserController {
     public User getMe() {
         // SecurityContext에서 인증받은 회원의 정보를 얻어온다.
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String id = authentication.getName();
+        long id = ((UserPrincipal) authentication.getPrincipal()).getID();
         return userService.getId(id);
     }
 }
