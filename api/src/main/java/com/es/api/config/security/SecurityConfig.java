@@ -45,26 +45,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         // swagger
         web.ignoring().antMatchers(
-                "/v2/api-docs", "/v3/api-docs", "/configuration/ui",
-                "/swagger-resources", "/configuration/security",
-                "/swagger-ui/index.html", "/webjars/**", "/swagger/**","/swagger-resources",
+                "/v2/api-docs/**", "/v3/api-docs/**", "/configuration/ui",
+                "/swagger-resources", "/configuration/security", "/swagger-ui/**",
+                "/swagger-ui/index.html", "/webjars/**", "/swagger/**","/swagger-resources/**",
                 "/configuration/security", "/swagger-resources/configuration/ui",
-                "/swagger-resources/configuration/security");
+                "/swagger-resources/configuration/security", "/h2-console/**","/api/signup","/api/signin");
     }
-
-
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         //스프링시큐리티에서 만들어주는 로그인 페이지를 미사용
-        http.csrf().disable();
         http.headers().frameOptions().disable();
 
-        http.httpBasic().disable()
+        http
+                .httpBasic().disable()
+                .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/h2-console/**","/admin/**","/api/signup","/api/signin").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
