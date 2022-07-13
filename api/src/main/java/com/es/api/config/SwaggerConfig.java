@@ -71,21 +71,4 @@ public class SwaggerConfig {
     }
 }
 
-//@Configuration
-//public class SwaggerConfig {
-//
-//    private ApiInfo apiInfo() {
-//        return new ApiInfoBuilder()
-//                .title("REST API")
-//                .build();
-//    }
-//
-//    @Bean
-//    public Docket api() {
-//        return new Docket(DocumentationType.OAS_30) // open api spec 3.0
-//                .apiInfo(this.apiInfo())
-//                .select()
-//                .apis(RequestHandlerSelectors.any())
-//                .paths(PathSelectors.any())
-//                .build();
-//    }
+
