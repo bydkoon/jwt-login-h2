@@ -34,7 +34,6 @@ public class User {
     private String password;
 
 
-
     public User(String userId, String regNo, String password, String name) {
         this.userId = userId;
         this.regNo = regNo;

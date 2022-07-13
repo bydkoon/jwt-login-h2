@@ -1,35 +1,12 @@
 package com.es.api.exception;
 
 import com.es.api.config.security.ErrorCode;
-import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
-
-//@Getter
-//@NoArgsConstructor(access = AccessLevel.PROTECTED)
-//public class ErrorResponse {
-//
-//    private HttpStatus status;
-//    private String code;
-//
-//
-//    @Getter
-//    @NoArgsConstructor(access = AccessLevel.PROTECTED)
-//    public static class FieldError {
-//        private String field;
-//        private String value;
-//        private String reason;
-//
-//    }
-//}
 
 
 @Getter

@@ -24,7 +24,8 @@ public class UserService {
     // 로그인
     @ApiOperation(value="로그인")
     public User login(@RequestBody UserParameter userParameter) throws Exception{
-        User user = userRepository.findByUserIdAndPassword(userParameter.getUserId(), userParameter.getPassword());
+        String encodedPassword = passwordEncoder.encode(userParameter.getPassword());
+        User user = userRepository.findByUserIdAndPassword(userParameter.getUserId(), encodedPassword);
         if (user == null){
             throw new AuthException(ErrorCode.NO_USER);
         }
