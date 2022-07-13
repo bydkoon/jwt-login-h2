@@ -8,6 +8,7 @@ import com.es.api.parameters.UserParameter;
 import com.es.api.repository.UserRepository;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -21,6 +22,8 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
     // 로그인
     @ApiOperation(value="로그인")
     public User login(@RequestBody UserParameter userParameter) throws Exception{
@@ -37,8 +40,15 @@ public class UserService {
         Optional<User> user = userRepository.findByUserId(userParameter.getUserId());
         if (user.isPresent())
             throw new AlreadyExistsException("Duplicate id");
-
-        return userRepository.save(new User(userParameter.getUserId(), userParameter.getRegNo(), userParameter.getPassword(), userParameter.getName()));
+        String encodedPassword = passwordEncoder.encode(userParameter.getPassword());
+        return userRepository.save(
+                new User(
+                userParameter.getUserId(),
+                userParameter.getRegNo(),
+                        encodedPassword,
+                userParameter.getName()
+                )
+        );
     }
 
     // 로그인
